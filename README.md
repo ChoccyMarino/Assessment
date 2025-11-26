@@ -74,3 +74,20 @@ PostTag.cs
 - PostTag is linked to Tag. many to one relationship.
 
 ---
+
+Phase 2 
+Database Setup
+
+Set up ApplicationDbContext.cs
+- namespace exposes the class to Program.cs
+- DbSet<User> Users in DB
+- OnModelCreating runs during the migration
+- PostTags needs composite key because it is a junction / bridge table
+- User Profile is dependent on User existing. One to one relationship.
+
+Set up connection string in appsettings.json
+Set up Program.cs to add ApplicationDbContext to services
+Set up initial migration (Add-Migration InitialCreate)
+Commited using Update-Database
+
+
