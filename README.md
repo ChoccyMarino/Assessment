@@ -29,3 +29,48 @@ I need Nuget packages:
 - FluentValidation.AspNetCore (for ASP.NET Core model binding pipeline)
 - Microsoft.AspNetCore.Authentication.JwtBearer (auth token, login)
 - StackExchange.Redis (caching)
+
+Models files
+- User.cs
+- UserProfile.cs
+- Post.cs
+- Tag.cs
+- PostTag.cs
+
+
+User is linked to UserProfile - User has collections of Post - Post has collection of PostTag - Tag has collection of PostTag
+
+User.cs
+- User.ID
+- User.Username
+- User.Email
+- User.PasswordHash
+- User.CreatedAt
+- User is linked to UserProfile. One to one relationship.
+- User has collection of post. One to many relationship.
+
+UserProfile.cs
+- UserProfile.ID
+- UserProfile.Bio
+- UserProfile is linked to User. One to one relationship.
+
+Post.cs
+- Post.ID
+- Post.Title
+- Post.Content
+- Post.CreatedAt
+- Post is linked to User. Many to one relationship.
+- Post has collection of PostTag. One to many relationship.
+
+Tag.cs
+- Tag.ID
+- Tag.Name
+- Tag has collection of PostTag. one to many relationship.
+
+PostTag.cs
+- PostTag.PostID
+- PostTag.Tag
+- PostTag is linked to Post. Many to one relationship.
+- PostTag is linked to Tag. many to one relationship.
+
+---
