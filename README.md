@@ -90,4 +90,32 @@ Set up Program.cs to add ApplicationDbContext to services
 Set up initial migration (Add-Migration InitialCreate)
 Commited using Update-Database
 
+---
+
+Phase 3
+CQRS/MediatR
+
+Command Query Responsibility Segregation.
+- Commands - change state / data = Create, Update, Delete
+- Queries -  read data = Get, List
+
+MediatR
+- Separates controllers from business logic
+- each operation is isolated and easy to test/understand
+
+-- installed MediatR Nuget package
+-- installed FluentValidation Nuget package
+-- installed FluentValidation.DependencyInjectionExtensions Nuget package
+
+setup folder structure
+- Features
+- - Auth (registration, login)
+- - Posts (post operations)
+- - Tags (tag operations)
+
+for every operation, there will be 3 files.
+- Command/Query file (the message)
+- validator file (input validation)
+- Handler file (does the work/logic)
+
 
