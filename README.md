@@ -135,3 +135,23 @@ ValidationBehavior.cs
 created AuthController.cs
 - has Register endpoint
 - successfully tested and registered a user using Swagger UI
+- created Login.cs file in Auth folder which contains LoginCommand, LoginResult, LoginCommandHandler
+- created LoginValidator.cs in Auth folder
+- created Login endpoint in AuthController.cs
+- successfully tested and logged in a user using Swagger UI
+
+---
+
+JWT Auth (Json Web Token)
+
+1. Install Nuget package Microsoft.AspNetCore.Authentication.JwtBearer
+2. In Program.cs, configure JWT authentication
+3. Update Login handler to generate JWT token upon successful login
+4. testing
+
+- JwtBearer setup complete
+- add JWT settings to appsettings.json
+- - store a secret key
+- - store issuer
+- - store audience
+- - store token expiry time

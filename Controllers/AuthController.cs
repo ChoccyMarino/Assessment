@@ -38,4 +38,26 @@ public async Task<IActionResult> Register([FromBody] RegisterCommand command)
         return BadRequest(new { errors });
     }
 }
+
+[HttpPost("login")]
+public async Task<IActionResult> Login([FromBody] LoginCommand command)
+    {
+        try
+        {
+            var result = await _mediator.Send(command);
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return Unauthorized(result); // 401 unauthorized (not bad request) because
+            // the user is not authenticated, not because the request is invalid
+        }
+        catch (ValidationException ex)
+        {
+            var errors = ex.Errors.Select(e => new { e.PropertyName, e.ErrorMessage });
+            return BadRequest(new { errors });
+        }
+    }
 }
