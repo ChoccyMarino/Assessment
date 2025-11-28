@@ -118,4 +118,8 @@ for every operation, there will be 3 files.
 - validator file (input validation)
 - Handler file (does the work/logic)
 
+created a Register.cs file in Auth folder which contains 
 
+---
+
+Registering MediatR 

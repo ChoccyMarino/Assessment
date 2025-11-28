@@ -1,9 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using Assessment.Data; 
+using MediatR;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options=>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// register MediatR, finds all handlers in the assembly
+   
 // Add services to the container.
 
 builder.Services.AddControllers();

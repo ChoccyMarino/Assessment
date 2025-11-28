@@ -25,6 +25,7 @@ namespace Assessment.Features.Auth;
 
 
     // Mediator - Validator - this is where we check if the data is valid or not
+    //AI was used here because I am not familiar with the exact syntax for FluentValidation
     public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
     {
         public RegisterCommandValidator()
