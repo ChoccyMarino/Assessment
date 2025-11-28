@@ -13,7 +13,7 @@ public class User
 
     // Relationships
     public UserProfile? UserProfile { get; set; } = null!;
-    public ICollection<Post> Posts { get; set; } = new List<Post>();
+    public ICollection<Post> Posts {     get; set; } = new List<Post>();
     //UserProfile? is to indicate it CAN be null
     //new List<Post>() to initialize the collection
 
