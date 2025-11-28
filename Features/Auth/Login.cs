@@ -5,6 +5,7 @@ using Assessment.Models;
 using Microsoft.EntityFrameworkCore;
 using BCrypt.Net;
 using System.Data;
+using Assessment.Services;
 
 namespace Assessment.Features.Auth;
 
@@ -42,10 +43,12 @@ public class LoginCommandValidator : AbstractValidator<LoginCommand>
 public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResult>
 {
     private readonly ApplicationDbContext _context;
+    private readonly JwtService _jwtService;
 
-    public LoginCommandHandler(ApplicationDbContext context)
+    public LoginCommandHandler(ApplicationDbContext context, JwtService jwtService)
     {
         _context = context;
+        _jwtService = jwtService;
     }
 
     public async Task<LoginResult> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -78,13 +81,15 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResult>
             };
         }
 
+        var token = _jwtService.GenerateToken(user.Id, user.Email);
+
         // success - check password
         return new LoginResult
         {
             Success = true,
             Message = "Login successful",
             UserId = user.Id,
-            Token = null // will be used later for JWT authn
+            Token = token // will be used later for JWT authn
         };
     }
 }
