@@ -123,3 +123,15 @@ created a Register.cs file in Auth folder which contains
 ---
 
 Registering MediatR 
+
+- decided not to install MediatR.Extensions.FluentValidation.AspNetCore because it is deprecated
+- set up my own ValidationBehavior.cs in Behaviors folder
+
+ValidationBehavior.cs
+- will run all validators
+- if valid > continue to handler
+- if invalid > throw error, stop here
+
+created AuthController.cs
+- has Register endpoint
+- successfully tested and registered a user using Swagger UI
