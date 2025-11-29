@@ -71,4 +71,71 @@ public class PostsController : ControllerBase
             return BadRequest(new { message = "Failed to retrieve posts", error = ex.Message });
         }
     }
+
+    [HttpDelete("{postId}")]
+    public async Task<IActionResult> DeletePost(int postId)
+    {
+        try
+        {
+            // get the user id from the JWT token claims
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return Unauthorized(new { message = "User not authenticated "});
+            }
+
+            var command = new DeletePostCommand
+            {
+                PostId = postId,
+                UserId = int.Parse(userId)
+            };
+
+            var result = await _mediator.Send(command);
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = "Failed to delete post", error = ex.Message });
+        }
+    }
+
+    [HttpPut("{postId}")]
+    public async Task<IActionResult> UpdatePost(int postId, [FromBody] UpdatePostCommand command)
+    {
+        try
+        {
+            // get the user id from the JWT token claims
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            if (userId == null)
+            {
+                return Unauthorized(new { message = "User not authenticated "});
+            }
+
+            // set postId and userId (from the route and token, not from user input)
+            command.PostId = postId;
+            command.UserId = int.Parse(userId);
+
+            var result = await _mediator.Send(command);
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+        catch (FluentValidation.ValidationException ex)
+        {
+            var errors = ex.Errors.Select(e => new { e.PropertyName, e.ErrorMessage });
+            return BadRequest(new { errors });
+        }
+    }
 }

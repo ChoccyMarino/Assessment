@@ -155,3 +155,10 @@ JWT Auth (Json Web Token)
 - - store issuer
 - - store audience
 - - store token expiry time
+
+---
+
+Set up Features/Posts
+- CreatePost.cs
+- ListPosts.cs
+- DeletePost.cs

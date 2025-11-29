@@ -40,7 +40,7 @@ public class CreatePostCommandValidator : AbstractValidator<CreatePostCommand>
 
         RuleFor(x => x.Content)
             .NotEmpty().WithMessage("Content is required")
-            .MinimumLength(20).WithMessage("Content must be at least 20 characters long");
+            .MinimumLength(10).WithMessage("Content must be at least 10 characters long");
     }
 }
 
