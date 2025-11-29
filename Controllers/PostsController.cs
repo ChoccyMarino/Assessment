@@ -51,4 +51,24 @@ public class PostsController : ControllerBase
             return BadRequest(new { errors });
         }
     }
+
+    [HttpGet]
+    public async Task<IActionResult> ListPosts([FromQuery] int? userId)
+    {
+        try
+        {
+            var query = new ListPostsQuery
+            {
+                UserId = userId
+            };
+
+            var result = await _mediator.Send(query);
+
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = "Failed to retrieve posts", error = ex.Message });
+        }
+    }
 }
