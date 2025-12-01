@@ -3,6 +3,7 @@ using FluentValidation;
 using Assessment.Data;
 using Assessment.Models;
 using Microsoft.EntityFrameworkCore;
+using Assessment.Services;
 
 namespace Assessment.Features.Tags;
 
@@ -36,10 +37,13 @@ public class CreateTagCommandValidator : AbstractValidator<CreateTagCommand>
 public class CreateTagCommandHandler : IRequestHandler<CreateTagCommand, CreateTagResult>
 {
     private readonly ApplicationDbContext _context;
-    
-    public CreateTagCommandHandler(ApplicationDbContext context)
+    private readonly RedisService _redis; //1, add RedisService component
+
+    //2. inject RedisService into constructor
+    public CreateTagCommandHandler(ApplicationDbContext context, RedisService redis)
     {
         _context = context;
+        _redis = redis;
     }
 
     public async Task<CreateTagResult> Handle(CreateTagCommand request, CancellationToken cancellationToken)
@@ -66,6 +70,11 @@ public class CreateTagCommandHandler : IRequestHandler<CreateTagCommand, CreateT
 
         _context.Tags.Add(tag);
         await _context.SaveChangesAsync(cancellationToken);
+
+        // 3. remove cache
+        // since data has just been changed, cached list in redis is wrong
+        // so we need to remove it and will trigger a fresh DB query
+        await _redis.RemoveAsync("tags_list");
 
         return new CreateTagResult
         {
