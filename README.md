@@ -162,3 +162,8 @@ Set up Features/Posts
 - CreatePost.cs
 - ListPosts.cs
 - DeletePost.cs
+- UpdatePost.cs
+
+Phase 4 - set up Redis Caching
+
+1. install StackExchange.Redis Nuget package

@@ -10,12 +10,19 @@ using Microsoft.IdentityModel.Tokens;
 using Assessment.Services;
 using Microsoft.OpenApi.Models;
 using System.Reflection.Metadata;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options=>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<JwtService>();
+
+//register Redis
+builder.Services.AddSingleton<IConnectionMultiplexer> (sp =>
+    ConnectionMultiplexer.Connect("localhost"));
+builder.Services.AddScoped<RedisService>();
+
 
 //register MediatR, finds all handlers in the assembly
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
