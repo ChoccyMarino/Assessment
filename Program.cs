@@ -108,6 +108,11 @@ app.UseHttpsRedirection();
 app.UseAuthentication(); // must come before UseAuthorization
 app.UseAuthorization();
 
+
+// add middleware
+app.UseMiddleware<Assessment.Middleware.ExceptionHandlingMiddleware>();
+
+
 app.MapControllers();
 
 app.Run();
