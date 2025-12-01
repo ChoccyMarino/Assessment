@@ -23,8 +23,7 @@ public class PostsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreatePost([FromBody] CreatePostCommand command)
     {
-        try
-        {
+
             //get user id from the JWT token claims
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -44,19 +43,11 @@ public class PostsController : ControllerBase
             }
 
             return BadRequest(result);
-        }
-        catch (ValidationException ex)
-        {
-            var errors = ex.Errors.Select(e => new { e.PropertyName, e.ErrorMessage });
-            return BadRequest(new { errors });
-        }
     }
 
     [HttpGet]
     public async Task<IActionResult> ListPosts([FromQuery] int? userId)
     {
-        try
-        {
             var query = new ListPostsQuery
             {
                 UserId = userId
@@ -65,18 +56,11 @@ public class PostsController : ControllerBase
             var result = await _mediator.Send(query);
 
             return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = "Failed to retrieve posts", error = ex.Message });
-        }
     }
 
     [HttpDelete("{postId}")]
     public async Task<IActionResult> DeletePost(int postId)
     {
-        try
-        {
             // get the user id from the JWT token claims
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
@@ -99,18 +83,11 @@ public class PostsController : ControllerBase
             }
 
             return BadRequest(result);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = "Failed to delete post", error = ex.Message });
-        }
     }
 
     [HttpPut("{postId}")]
     public async Task<IActionResult> UpdatePost(int postId, [FromBody] UpdatePostCommand command)
     {
-        try
-        {
             // get the user id from the JWT token claims
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
@@ -131,11 +108,5 @@ public class PostsController : ControllerBase
             }
 
             return BadRequest(result);
-        }
-        catch (FluentValidation.ValidationException ex)
-        {
-            var errors = ex.Errors.Select(e => new { e.PropertyName, e.ErrorMessage });
-            return BadRequest(new { errors });
-        }
     }
 }

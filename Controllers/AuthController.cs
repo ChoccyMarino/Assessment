@@ -42,23 +42,16 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginCommand command)
         {
-            try
-            {
-                var result = await _mediator.Send(command);
 
-                if (result.Success)
-                {
-                    return Ok(result);
-                }
+            var result = await _mediator.Send(command);
 
-                return Unauthorized(result); // 401 unauthorized (not bad request) because
-                // the user is not authenticated, not because the request is invalid
-            }
-            catch (ValidationException ex)
+            if (result.Success)
             {
-                var errors = ex.Errors.Select(e => new { e.PropertyName, e.ErrorMessage });
-                return BadRequest(new { errors });
+                return Ok(result);
             }
+
+            return Unauthorized(result); // 401 unauthorized (not bad request) because
+            // the user is not authenticated, not because the request is invalid
         }
 
     [HttpGet("profile")]
