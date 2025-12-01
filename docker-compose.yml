@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+
+  # Postgres database
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: devpassword123
+      POSTGRES_DB: BlogDB
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Redis cache
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  # Assessment API
+  api:
+    build: .
+    ports:
+      - "5200:8080"
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=BlogDB;Username=postgres;Password=devpassword123
+      - Redis__ConnectionString=redis
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  postgres_data:

@@ -19,8 +19,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options=>
 builder.Services.AddScoped<JwtService>();
 
 //register Redis
+var redisConnection = builder.Configuration.GetValue<string>("Redis:ConnectionString") ?? "localhost";
 builder.Services.AddSingleton<IConnectionMultiplexer> (sp =>
-    ConnectionMultiplexer.Connect("localhost"));
+    ConnectionMultiplexer.Connect(redisConnection));
 builder.Services.AddScoped<RedisService>();
 
 
@@ -103,7 +104,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();  //disabled for docker
+
 
 app.UseAuthentication(); // must come before UseAuthorization
 app.UseAuthorization();
