@@ -94,13 +94,8 @@ This will start:
 - Postgres on localhost:5433
 - Redis on localhost:6379
 
-3. **Run database migrations**
-```bash
-docker exec assessment-api-1 dotnet ef database update
-
-4. **Access Swagger UI**
--  Access Swagger UI at https://localhost:5200/swagger
-```
+3. **Access Swagger UI**
+   - Access Swagger UI at `http://localhost:5200/swagger`
 
 ### Option 2: Local Development
 1. **Update connection strings in appsettings.json**
