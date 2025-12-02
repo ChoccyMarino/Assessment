@@ -29,7 +29,7 @@ public class RedisService
             return default;
         }
 
-        return JsonSerializer.Deserialize<T>(json);
+        return JsonSerializer.Deserialize<T>(json.ToString());
     }
 
     public async Task RemoveAsync(string key)
