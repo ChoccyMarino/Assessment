@@ -8,7 +8,6 @@ pattern with MediatR, FluentValidation, JWT authentication, Redis caching and Po
 - [Architecture](#architecture)
 - [Prerequisites](#prerequisites)
 - [Setup & Installation](#setup--installation)
-- [Running the Application](#running-the-application)
 - [API Endpoints](#api-endpoints)
 - [Error Handling](#error-handling)
 - [Caching Strategy](#caching-strategy)
@@ -271,7 +270,7 @@ All errors are handled by [ExceptionHandlingMiddleware](cci:2://file:///c:/Users
 - 404 Not Found - resource not found
 - 500 Internal Server Error - Unexpected error
 
-### Caching Strategy
+## Caching Strategy
 Redis caching is implemented for the Tags endpoint:
 - Cache key: `tags_list`
 - Cache expiration: 10 minutes
@@ -281,7 +280,7 @@ Redis caching is implemented for the Tags endpoint:
 - Tags are read-heavy and rarely change
 - Perfect  candidate for caching
 
-### Database Schema
+## Database Schema
 ```txt
 Users (1) ←→ (1) UserProfiles
   ↓ (1:N)
