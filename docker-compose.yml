@@ -13,6 +13,11 @@ services:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   # Redis cache
   redis:
@@ -29,8 +34,10 @@ services:
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=BlogDB;Username=postgres;Password=devpassword123
       - Redis__ConnectionString=redis
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
 
 volumes:
   postgres_data:
