@@ -89,7 +89,7 @@ cd Assessment
 docker-compose up --build -d
 ```
 This will start:
-- API on https://localhost:5200
+- API on http://localhost:5200
 - Postgres on localhost:5433
 - Redis on localhost:6379
 
@@ -98,12 +98,16 @@ This will start:
 
 ### Option 2: Local Development
 1. **Update connection strings in appsettings.json**
-- Update the connection strings in [appsettings.json](cci:1://file:///c:/Users/MSI/source/repos/Assessment/appsettings.json:1:4-1:4) to point to your local Postgres and Redis databases.
+- Set both Postgres and Redis connection strings in [appsettings.json](cci:1://file:///c:/Users/MSI/source/repos/Assessment/appsettings.json:1:4-1:4) to point to your local Postgres and Redis databases.
 ```json
 "ConnectionStrings": {
   "DefaultConnection": "Host=localhost;Port=5432;Database=BlogDB;Username=postgres;Password=yourpassword"
+},
+"Redis": {
+    "ConnectionString": "localhost:6379"
 }
 ```
+Docker compose already sets Redis_ConnectionString=redis, so  you only need the Redis block for local development.
 
 2. **Run migrations**
 ```bash
@@ -120,7 +124,7 @@ redis-server
 dotnet run
 ```
 
-- the API will be available at https://localhost:5200
+- the API will be available at http://localhost:5200
 
 ## API Endpoints
 
@@ -343,6 +347,6 @@ I used AI assistants (Claude AI and Google Gemini) as learning tools and pair pr
 - Password policy: Minimum 8 characters, at least 1 uppercase, 1 lowercase, 1 number, 1 special character (enforced by FluentValidation)
 - JWT token expiry time: 60 minutes
 - Swagger: available in all environments (including production for demo purposes)
-- HTTPS Redirection: Disabled in Docker (handled by reverse proxy in production)
+- HTTPS Redirection: disabled for now (Program.cs comments it out). It runs over HTTP at :5200
 
 

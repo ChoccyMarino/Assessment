@@ -2,9 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Assessment.Features.Profiles;
-using FluentValidation;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Assessment.Controllers;
 
@@ -23,65 +21,48 @@ public class ProfilesController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetProfile()
     {
-        try
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (userId == null)
         {
-            // Get userId from token
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            
-            if (userId == null)
-            {
-                return Unauthorized(new { message = "User not authenticated" });
-            }
-            
-            var query = new GetProfileQuery
-            {
-                UserId = int.Parse(userId)
-            };
-            
-            var result = await _mediator.Send(query);
-            
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            
-            return BadRequest(result);
+            return Unauthorized(new { message = "User not authenticated" });
         }
-        catch (Exception ex)
+
+        var query = new GetProfileQuery
         {
-            return BadRequest(new { message = "Failed to retrieve profile", error = ex.Message });
+            UserId = int.Parse(userId)
+        };
+
+        var result = await _mediator.Send(query);
+
+        if (result.Success)
+        {
+            return Ok(result);
         }
+
+        return BadRequest(result);
     }
 
     [HttpPut]
     public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileCommand command)
     {
-        try
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (userId == null)
         {
-            // get the user id from the token
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            if (userId == null)
-            {
-                return Unauthorized(new { message = "User not authenticated" });
-            }
-
-            // set user Id from token
-            command.UserId = int.Parse(userId);
-
-            var result = await _mediator.Send(command);
-            
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            
-            return BadRequest(result);
+            return Unauthorized(new { message = "User not authenticated" });
         }
-        catch (ValidationException ex)
+
+        command.UserId = int.Parse(userId);
+        // if the command is valid, send it to the mediator
+
+        var result = await _mediator.Send(command);
+
+        if (result.Success)
         {
-            var errors = ex.Errors.Select(e => new { e.PropertyName, e.ErrorMessage });
-            return BadRequest(new {errors});
+            return Ok(result);
         }
+
+        return BadRequest(result);
     }
 }
