@@ -138,7 +138,7 @@ Content-Type: application/json
 {
     "username": "johndoe",
     "email": "john@example.com",
-    "password": "password123"
+    "password": "Password123#"
 }
 ```
 
@@ -147,7 +147,7 @@ Content-Type: application/json
 ```json
 {
     "success": true,
-    "message": "User created successfully",
+    "message": "User registered successfully",
     "userId": 1
 }
 ```
@@ -160,7 +160,7 @@ Content-Type: application/json
 
 {
     "email": "john@example.com",
-    "password": "password123"
+    "password": "Password123#"
 }
 ```
 
