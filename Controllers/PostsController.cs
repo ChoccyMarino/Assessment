@@ -42,6 +42,16 @@ public class PostsController : ControllerBase
                 return Ok(result);
             }
 
+            if (result.Message.Contains("not found", StringComparison.OrdinalIgnoreCase))
+            {
+                return NotFound(result);
+            }
+
+            if (result.Message.Contains("not the author", StringComparison.OrdinalIgnoreCase))
+            {
+                return Forbid();
+            }
+
             return BadRequest(result);
     }
 
@@ -105,6 +115,16 @@ public class PostsController : ControllerBase
             if (result.Success)
             {
                 return Ok(result);
+            }
+
+            if (result.Message.Contains("not found", StringComparison.OrdinalIgnoreCase))
+            {
+                return NotFound(result);
+            }
+
+            if (result.Message.Contains("not the author", StringComparison.OrdinalIgnoreCase))
+            {
+                return Forbid();
             }
 
             return BadRequest(result);

@@ -18,10 +18,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options=>
 
 builder.Services.AddScoped<JwtService>();
 
-//register Redis
-var redisConnection = builder.Configuration.GetValue<string>("Redis:ConnectionString") ?? "localhost";
-builder.Services.AddSingleton<IConnectionMultiplexer> (sp =>
-    ConnectionMultiplexer.Connect(redisConnection));
+// Register Redis caching service (connects lazily inside RedisService, won't block startup)
 builder.Services.AddScoped<RedisService>();
 
 

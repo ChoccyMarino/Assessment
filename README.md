@@ -108,6 +108,7 @@ This will start:
 }
 ```
 Docker compose already sets Redis_ConnectionString=redis, so  you only need the Redis block for local development.
+> Note: Docker Compose uses the .NET config binding format with double underscores: `Redis__ConnectionString=redis`.
 
 2. **Run migrations**
 ```bash
@@ -124,7 +125,7 @@ redis-server
 dotnet run
 ```
 
-- the API will be available at http://localhost:5200
+- By default (launchSettings), the API runs at `http://localhost:5147` (HTTP) and `https://localhost:7179` (HTTPS). Update `ASPNETCORE_URLS` if you want a different port.
 
 ## API Endpoints
 

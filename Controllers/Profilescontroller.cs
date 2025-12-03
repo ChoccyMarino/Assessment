@@ -40,6 +40,11 @@ public class ProfilesController : ControllerBase
             return Ok(result);
         }
 
+        if (result.Message.Contains("not found", StringComparison.OrdinalIgnoreCase))
+        {
+            return NotFound(result);
+        }
+
         return BadRequest(result);
     }
 

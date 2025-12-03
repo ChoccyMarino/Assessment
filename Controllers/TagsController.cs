@@ -16,6 +16,7 @@ public class TagsController : ControllerBase
         _mediator = mediator;
     }
 
+    // creates a new tag, lets the handler validate/decide duplicates
     [HttpPost]
     public async Task<IActionResult> CreateTag([FromBody] CreateTagCommand command)
     {
@@ -30,6 +31,7 @@ public class TagsController : ControllerBase
             return BadRequest(result);
     }
 
+    // list all tags, cached by the query handler
     [HttpGet]
     public async Task<IActionResult> ListTags()
     {
