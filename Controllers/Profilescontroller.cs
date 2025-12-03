@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 namespace Assessment.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/profile")]
 [Authorize] // all endpoints in this controller require authentication
 
 public class ProfilesController : ControllerBase

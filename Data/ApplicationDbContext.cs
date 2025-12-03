@@ -29,5 +29,13 @@ public class ApplicationDbContext : DbContext
             .HasOne(u => u.UserProfile)
             .WithOne(up => up.User)
             .HasForeignKey<UserProfile>(up => up.UserId);
+
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Username)
+            .IsUnique();
     }
 }

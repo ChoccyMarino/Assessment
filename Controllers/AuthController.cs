@@ -55,18 +55,4 @@ public class AuthController : ControllerBase
         }
 
     [HttpGet("profile")]
-    [Authorize]  // This means "must be logged in"
-    public IActionResult GetProfile()
-    {
-        // Get userId from the token
-        var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-        var email = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
-        
-        return Ok(new
-        {
-            message = "You are authenticated!",
-            userId = userId,
-            email = email
-        });
-    }
 }

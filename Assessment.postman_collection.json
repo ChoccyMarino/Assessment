@@ -255,7 +255,7 @@
                             }
                         ],
                         "url": {
-                            "raw": "{{baseUrl}}/api/profiles",
+                            "raw": "{{baseUrl}}/api/profile",
                             "host": [
                                 "{{baseUrl}}"
                             ],
@@ -285,7 +285,7 @@
                             "raw": "{\n  \"bio\": \"Software developer passionate about clean code\"\n}"
                         },
                         "url": {
-                            "raw": "{{baseUrl}}/api/profiles",
+                            "raw": "{{baseUrl}}/api/profile",
                             "host": [
                                 "{{baseUrl}}"
                             ],
